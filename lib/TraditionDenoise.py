@@ -35,7 +35,10 @@ class Skimage:
 
     def denoiseTVC(self):
         img = skimage.io.imread(self.directory)
-        plotImage(img, "tvc")
+        img1 = denoise_tv_chambolle(img)
+        plotImage(img1, "tvc")
+        img2 = denoise_bilateral(img)
+        plotImage(img2, "bilateral")
 
 
 
