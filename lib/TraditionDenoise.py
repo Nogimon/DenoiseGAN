@@ -3,7 +3,14 @@
 import numpy as np
 import cv2
 from matplotlib import pyplot as plt
-from Skimage import denoise_tv_chambolle
+import skimage.io
+from skimage.restoration import denoise_tv_chambolle, denoise_bilateral
+                                 #denoise_wavelet, estimate_sigma)
+
+def plotImage(img, name):
+    fig = plt.figure()
+    plt.imshow(img)
+    fig.savefig("./" + name + ".png")
 
 class DenoiseCv2:
 
@@ -12,16 +19,13 @@ class DenoiseCv2:
     def __init__(self, directory):
         self.directory = directory
 
-    def plotImage(self, img, name):
-        plt.savefig("./" + name + ".png")
-
 
 
     def denoiseFastNIMeans(self):
         img = cv2.imread(self.directory)
-        denoisedImg = cv2.fastNIMeansDenoisingColored(img, None, 10, 10, 7, 21)
+        denoisedImg = cv2.fastNlMeansDenoising(img, None, 10, 10, 7)
 
-        self.plotImage(img, "NIMeans")
+        plotImage(denoisedImg, "NIMeans")
 
 
 class Skimage:
@@ -30,12 +34,17 @@ class Skimage:
         self.directory = directory
 
     def denoiseTVC(self):
-        img = 
+        img = skimage.io.imread(self.directory)
+        plotImage(img, "tvc")
+
 
 
 
 if __name__ == "__main__":
-    dir = "./try.png"
-    denoiseCv2 = DenoiseCv2(dir)
-    denoiseCv2.denoiseFastNIMeans()
+    dir = "./inputs.png"
+    #denoiseCv2 = DenoiseCv2(dir)
+    #denoiseCv2.denoiseFastNIMeans()
+    denoiseSk = Skimage(dir)
+    denoiseSk.denoiseTVC()
+
 
